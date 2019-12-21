@@ -36,7 +36,6 @@ function createShopifyAuth(options) {
                 switch (_a.label) {
                     case 0:
                         if (!(ctx.path === oAuthStartPath && !hasCookieAccess(ctx))) {
-                            console.log("oAuthStartPath && !hasCookieAccess");
                             return [3 /*break*/, 2];
                         }
                         return [4 /*yield*/, enableCookiesRedirect(ctx)];
@@ -47,7 +46,6 @@ function createShopifyAuth(options) {
                         if (!(ctx.path === inlineOAuthPath ||
                             (ctx.path === oAuthStartPath && shouldPerformInlineOAuth(ctx))))
                         {
-                                console.log("oAuthStartPath && shouldPerformInlineOAuth");
                                 return [3 /*break*/, 4];
                         }
                         return [4 /*yield*/, oAuthStart(ctx)];
@@ -56,7 +54,6 @@ function createShopifyAuth(options) {
                         return [2 /*return*/];
                     case 4:
                         if (!(ctx.path === oAuthStartPath)) {
-                            console.log("oAuthStartPath");
                             return [3 /*break*/, 6];
                         }
                         return [4 /*yield*/, topLevelOAuthRedirect(ctx)];
