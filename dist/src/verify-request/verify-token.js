@@ -13,7 +13,12 @@ function verifyToken(routes) {
                 switch (_b.label) {
                     case 0:
                         session = ctx.session;
-                        if (!(session && session.accessToken)) return [3 /*break*/, 3];
+                        if (!(session && session.accessToken)) {
+                            console.log("VT True: session && session.accessToken");
+                            return [3 /*break*/, 3];
+                        } else {
+                          console.log("VT False: session && session.accessToken");
+                        }
                         ctx.cookies.set(index_1.TOP_LEVEL_OAUTH_COOKIE_NAME);
                         return [4 /*yield*/, fetch("https://" + session.shop + "/admin/metafields.json", {
                                 method: network_1.Method.Post,
@@ -25,14 +30,18 @@ function verifyToken(routes) {
                     case 1:
                         response = _b.sent();
                         if (response.status === network_1.StatusCode.Unauthorized) {
+                            console.log("VT True: response.status === StatusCode.Unauthorized");
                             utilities_1.redirectToAuth(routes, ctx);
                             return [2 /*return*/];
+                        } else {
+                            console.log("VT False: response.status === StatusCode.Unauthorized");
                         }
                         return [4 /*yield*/, next()];
                     case 2:
                         _b.sent();
                         return [2 /*return*/];
                     case 3:
+                        console.log("VT: case 3");
                         ctx.cookies.set(index_1.TEST_COOKIE_NAME, '1');
                         utilities_1.redirectToAuth(routes, ctx);
                         return [2 /*return*/];
