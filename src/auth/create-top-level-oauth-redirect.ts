@@ -9,7 +9,7 @@ export default function createTopLevelOAuthRedirect(path: string) {
     ctx.cookies.set(TOP_LEVEL_OAUTH_COOKIE_NAME, '1');
     setTimeout(() => {
       const redirect = createTopLevelRedirect(path);
-      redirect(ctx);
+      //redirect(ctx);
     }, 75);
   };
 }
