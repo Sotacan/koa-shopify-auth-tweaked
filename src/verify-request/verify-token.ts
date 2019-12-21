@@ -15,6 +15,7 @@ export function verifyToken(routes: Routes) {
     const {session} = ctx;
 
     if (session && session.accessToken) {
+      console.log("VT True: session && session.accessToken");
       ctx.cookies.set(TOP_LEVEL_OAUTH_COOKIE_NAME);
       // If a user has installed the store previously on their shop, the accessToken can be stored in session.
       // we need to check if the accessToken is valid, and the only way to do this is by hitting the api.
@@ -30,12 +31,16 @@ export function verifyToken(routes: Routes) {
       );
 
       if (response.status === StatusCode.Unauthorized) {
+        console.log("VT True: response.status === StatusCode.Unauthorized");
         redirectToAuth(routes, ctx);
         return;
+      } else {
+        console.log("VT False: response.status === StatusCode.Unauthorized");
       }
-
       await next();
       return;
+    } else {
+      console.log("VT False: session && session.accessToken");
     }
 
     ctx.cookies.set(TEST_COOKIE_NAME, '1');
