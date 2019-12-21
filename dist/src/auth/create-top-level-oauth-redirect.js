@@ -8,7 +8,7 @@ function createTopLevelOAuthRedirect(path) {
         ctx.cookies.set(index_1.TOP_LEVEL_OAUTH_COOKIE_NAME, '1');
         setTimeout(() => {
             var redirect = create_top_level_redirect_1.default(path);
-            redirect(ctx);
+            //redirect(ctx);
         }, 75);
     };
 }
