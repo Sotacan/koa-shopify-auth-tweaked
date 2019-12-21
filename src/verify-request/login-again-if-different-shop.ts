@@ -13,9 +13,12 @@ export function loginAgainIfDifferentShop(routes: Routes) {
     const {query, session} = ctx;
 
     if (session && query.shop && session.shop !== query.shop) {
+      console.log("True: session && query.shop && session.shop !== query.shop");
       clearSession(ctx);
       redirectToAuth(routes, ctx);
       return;
+    } else {
+      console.log("False: session && query.shop && session.shop !== query.shop");
     }
 
     await next();
