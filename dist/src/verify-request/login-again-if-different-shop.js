@@ -11,9 +11,12 @@ function loginAgainIfDifferentShop(routes) {
                     case 0:
                         query = ctx.query, session = ctx.session;
                         if (session && query.shop && session.shop !== query.shop) {
+                            console.log("VT True: session && query.shop && session.shop !== query.shop");
                             utilities_1.clearSession(ctx);
                             utilities_1.redirectToAuth(routes, ctx);
                             return [2 /*return*/];
+                        } else {
+                          console.log("VT False: session && query.shop && session.shop !== query.shop");
                         }
                         return [4 /*yield*/, next()];
                     case 1:
