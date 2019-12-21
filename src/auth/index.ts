@@ -48,7 +48,6 @@ export default function createShopifyAuth(options: OAuthStartOptions) {
 
   return async function shopifyAuth(ctx: Context, next: NextFunction) {
     if (ctx.path === oAuthStartPath && !hasCookieAccess(ctx)) {
-      console.log("oAuthStartPath && !hasCookieAccess");
       await enableCookiesRedirect(ctx);
       return;
     }
@@ -57,13 +56,11 @@ export default function createShopifyAuth(options: OAuthStartOptions) {
       ctx.path === inlineOAuthPath ||
       (ctx.path === oAuthStartPath && shouldPerformInlineOAuth(ctx))
     ) {
-      console.log("oAuthStartPath && shouldPerformInlineOAuth");
       await oAuthStart(ctx);
       return;
     }
 
     if (ctx.path === oAuthStartPath) {
-      console.log("oAuthStartPath");
       await topLevelOAuthRedirect(ctx);
       return;
     }
