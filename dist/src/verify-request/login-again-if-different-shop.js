@@ -13,7 +13,7 @@ function loginAgainIfDifferentShop(routes) {
                         if (session && query.shop && session.shop !== query.shop) {
                             console.log("LA True: session && query.shop && session.shop !== query.shop");
                             utilities_1.clearSession(ctx);
-                            //utilities_1.redirectToAuth(routes, ctx);
+                            utilities_1.redirectToAuth(routes, ctx);
                             return [2 /*return*/];
                         } else {
                           console.log("LA False: session && query.shop && session.shop !== query.shop");
