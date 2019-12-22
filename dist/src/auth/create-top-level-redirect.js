@@ -9,10 +9,10 @@ function createTopLevelRedirect(path) {
         var shop = query.shop;
         var params = { shop: shop };
         var queryString = querystring_1.default.stringify(params);
-        ctx.body = 'done.';/*redirection_page_1.default({
+        ctx.body = redirection_page_1.default({
             origin: "https://" + shop,
             redirectTo: "https://" + host + path + "?" + queryString,
-        });*/
+        });
     };
 }
 exports.default = createTopLevelRedirect;
