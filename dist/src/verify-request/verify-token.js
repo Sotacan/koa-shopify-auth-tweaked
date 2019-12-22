@@ -43,7 +43,7 @@ function verifyToken(routes) {
                     case 3:
                         console.log("VT: case 3");
                         ctx.cookies.set(index_1.TEST_COOKIE_NAME, '1');
-                        utilities_1.redirectToAuth(routes, ctx);
+                        //utilities_1.redirectToAuth(routes, ctx);
                         return [2 /*return*/];
                 }
             });
