@@ -31,7 +31,7 @@ function verifyToken(routes) {
                         response = _b.sent();
                         if (response.status === network_1.StatusCode.Unauthorized) {
                             console.log("VT True: response.status === StatusCode.Unauthorized");
-                            utilities_1.redirectToAuth(routes, ctx);
+                            //utilities_1.redirectToAuth(routes, ctx);
                             return [2 /*return*/];
                         } else {
                             console.log("VT False: response.status === StatusCode.Unauthorized");
@@ -41,7 +41,7 @@ function verifyToken(routes) {
                         _b.sent();
                         return [2 /*return*/];
                     case 3:
-                        console.log("VT: case 3");
+                        console.log("VT: CASE 3");
                         ctx.cookies.set(index_1.TEST_COOKIE_NAME, '1');
                         //utilities_1.redirectToAuth(routes, ctx);
                         return [2 /*return*/];
