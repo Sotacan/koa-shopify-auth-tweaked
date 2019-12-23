@@ -76,7 +76,7 @@ var KoaSessionFirebase = {
   }
 };
 //End
-function async createShopifyAuth(options) {
+async function createShopifyAuth(options) {
     var config = tslib_1.__assign({ scopes: [], prefix: '/next', myShopifyDomain: DEFAULT_MYSHOPIFY_DOMAIN, accessMode: DEFAULT_ACCESS_MODE }, options);
     var prefix = config.prefix;
     var oAuthStartPath = prefix + "/auth";
