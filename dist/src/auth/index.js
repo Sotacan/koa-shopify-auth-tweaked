@@ -76,7 +76,7 @@ var KoaSessionFirebase = {
   }
 };
 //End
-async function createShopifyAuth(options) {
+function createShopifyAuth(options) {
     var config = tslib_1.__assign({ scopes: [], prefix: '/next', myShopifyDomain: DEFAULT_MYSHOPIFY_DOMAIN, accessMode: DEFAULT_ACCESS_MODE }, options);
     var prefix = config.prefix;
     var oAuthStartPath = prefix + "/auth";
@@ -88,13 +88,13 @@ async function createShopifyAuth(options) {
     var enableCookiesPath = oAuthStartPath + "/enable_cookies";
     var enableCookies = create_enable_cookies_1.default(config);
     var enableCookiesRedirect = create_enable_cookies_redirect_1.default(enableCookiesPath);
-    return function shopifyAuth(ctx, next) {
-    //Start
-    KoaSessionFirebase.COOKIE_CONFIG = { maxAge: 86400000 };
-    KoaSessionFirebase.SessionStore = FirestoreKoaSession;
-    KoaSessionFirebase.ctx = ctx;
-    ctx.session = await KoaSessionFirebase.get();
-    //End
+    return async function shopifyAuth(ctx, next) {
+        //Start
+        KoaSessionFirebase.COOKIE_CONFIG = { maxAge: 86400000 };
+        KoaSessionFirebase.SessionStore = FirestoreKoaSession;
+        KoaSessionFirebase.ctx = ctx;
+        ctx.session = await KoaSessionFirebase.get();
+        //End
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
