@@ -6,14 +6,7 @@ var create_oauth_callback_1 = tslib_1.__importDefault(require("./create-oauth-ca
 var create_enable_cookies_1 = tslib_1.__importDefault(require("./create-enable-cookies"));
 var create_enable_cookies_redirect_1 = tslib_1.__importDefault(require("./create-enable-cookies-redirect"));
 var create_top_level_oauth_redirect_1 = tslib_1.__importDefault(require("./create-top-level-oauth-redirect"));
-//Start
-const admin = require('firebase-admin');
-const functions = require('firebase-functions');
-const { FirestoreStore } = require("koa-session-firestore");
-var firebaseAdmin = admin.initializeApp(functions.config().firebase);;
-const firestore = firebaseAdmin.firestore();
-var FirestoreKoaSession = new FirestoreStore({ db: firestore });
-//End
+
 var DEFAULT_MYSHOPIFY_DOMAIN = 'myshopify.com';
 var DEFAULT_ACCESS_MODE = 'online';
 exports.TOP_LEVEL_OAUTH_COOKIE_NAME = 'shopifyTopLevelOAuth';
@@ -73,8 +66,18 @@ var KoaSessionFirebase = {
 };
 //End
 function createShopifyAuth(options) {
-    var config = tslib_1.__assign({ scopes: [], prefix: '/next', myShopifyDomain: DEFAULT_MYSHOPIFY_DOMAIN, accessMode: DEFAULT_ACCESS_MODE }, options);
+    var config = tslib_1.__assign({ scopes: [], prefix: '/next', myShopifyDomain: DEFAULT_MYSHOPIFY_DOMAIN, accessMode: DEFAULT_ACCESS_MODE, firebaseAdmin: null }, options);
     var prefix = config.prefix;
+    //Start
+    const { FirestoreStore } = require("koa-session-firestore");
+    if(!FirestoreStore) console.log('FirestoreStore undefined');
+    var {firebaseAdmin} = config;
+    if(!firebaseAdmin) console.log('firebaseAdmin undefined');
+    const firestore = firebaseAdmin.firestore();
+    if(!firestore) console.log('firestore undefined');
+    var FirestoreKoaSession = new FirestoreStore({ db: firestore });
+    if(!FirestoreKoaSession) console.log('FirestoreKoaSession undefined');
+    //End
     var oAuthStartPath = prefix + "/auth";
     var oAuthCallbackPath = oAuthStartPath + "/callback";
     var oAuthStart = create_oauth_start_1.default(config, oAuthCallbackPath);
