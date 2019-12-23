@@ -33,39 +33,39 @@ var KoaSessionFirebase = {
   COOKIE_CONFIG: null,
   set: async (key, val) => {
     if(
-      !this.ctx ||
-      !this.SessionStore ||
-      !this.COOKIE_CONFIG
+      !KoaSessionFirebase.ctx ||
+      !KoaSessionFirebase.SessionStore ||
+      !KoaSessionFirebase.COOKIE_CONFIG
     ) return;
     var ourSessionKey = 
-      this.ctx.cookies.get("__session");
+    KoaSessionFirebase.ctx.cookies.get("__session");
     if(!ourSessionKey) {
       ourSessionKey = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
         .replace(/[xy]/g, function(c) {
           var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
           return v.toString(16);
         });
-      this.ctx.cookies
+        KoaSessionFirebase.ctx.cookies
         .set("__session", ourSessionKey);
     }
-    await this.SessionStore.set(ourSessionKey, {
+    await KoaSessionFirebase.SessionStore.set(ourSessionKey, {
       [key]: val,
-      "_expire": Date.now() + this.COOKIE_CONFIG.maxAge,
-      "_maxAge": this.COOKIE_CONFIG.maxAge
+      "_expire": Date.now() + KoaSessionFirebase.COOKIE_CONFIG.maxAge,
+      "_maxAge": KoaSessionFirebase.COOKIE_CONFIG.maxAge
     });
   },
   get: async (key=null) => {
     if(
-      !this.ctx ||
-      !this.SessionStore ||
-      !this.COOKIE_CONFIG
+      !KoaSessionFirebase.ctx ||
+      !KoaSessionFirebase.SessionStore ||
+      !KoaSessionFirebase.COOKIE_CONFIG
     ) return;
     var ourSessionKey = 
-      this.ctx.cookies.get("__session");
+    KoaSessionFirebase.ctx.cookies.get("__session");
     if(ourSessionKey) {
       var sessionData = 
-        await this.SessionStore
-          .get(ourSessionKey, this.COOKIE_CONFIG.maxAge);
+        await KoaSessionFirebase.SessionStore
+          .get(ourSessionKey, KoaSessionFirebase.COOKIE_CONFIG.maxAge);
       if(key && sessionData && sessionData[key]) {
           return sessionData[key];
       } else if(sessionData) {
