@@ -28,44 +28,40 @@ function shouldPerformInlineOAuth(_a) {
 }
 //Start
 var KoaSessionFirebase = {
-  ctx: null,
-  SessionStore: null,
-  COOKIE_CONFIG: null,
-  set: async (key, val) => {
+  set: async (key, val, ctx, SessionStore, COOKIE_CONFIG) => {
     if(
-      !KoaSessionFirebase.ctx ||
-      !KoaSessionFirebase.SessionStore ||
-      !KoaSessionFirebase.COOKIE_CONFIG
+      !ctx ||
+      !SessionStore ||
+      !COOKIE_CONFIG
     ) return;
     var ourSessionKey = 
-    KoaSessionFirebase.ctx.cookies.get("__session");
+    ctx.cookies.get("__session");
     if(!ourSessionKey) {
-      ourSessionKey = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-        .replace(/[xy]/g, function(c) {
-          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
-        KoaSessionFirebase.ctx.cookies
+      ourSessionKey = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+      ctx.cookies
         .set("__session", ourSessionKey);
     }
-    await KoaSessionFirebase.SessionStore.set(ourSessionKey, {
+    await SessionStore.set(ourSessionKey, {
       [key]: val,
-      "_expire": Date.now() + KoaSessionFirebase.COOKIE_CONFIG.maxAge,
-      "_maxAge": KoaSessionFirebase.COOKIE_CONFIG.maxAge
+      "_expire": Date.now() + COOKIE_CONFIG.maxAge,
+      "_maxAge": COOKIE_CONFIG.maxAge
     });
   },
-  get: async (key=null) => {
+  get: async (key=null, ctx, SessionStore, COOKIE_CONFIG) => {
     if(
-      !KoaSessionFirebase.ctx ||
-      !KoaSessionFirebase.SessionStore ||
-      !KoaSessionFirebase.COOKIE_CONFIG
+      !ctx ||
+      !SessionStore ||
+      !COOKIE_CONFIG
     ) return;
     var ourSessionKey = 
-    KoaSessionFirebase.ctx.cookies.get("__session");
+      ctx.cookies.get("__session");
     if(ourSessionKey) {
       var sessionData = 
-        await KoaSessionFirebase.SessionStore
-          .get(ourSessionKey, KoaSessionFirebase.COOKIE_CONFIG.maxAge);
+        await SessionStore
+          .get(ourSessionKey, COOKIE_CONFIG.maxAge);
       if(key && sessionData && sessionData[key]) {
           return sessionData[key];
       } else if(sessionData) {
@@ -90,10 +86,9 @@ function createShopifyAuth(options) {
     var enableCookiesRedirect = create_enable_cookies_redirect_1.default(enableCookiesPath);
     return async function shopifyAuth(ctx, next) {
         //Start
-        KoaSessionFirebase.COOKIE_CONFIG = { maxAge: 86400000 };
-        KoaSessionFirebase.SessionStore = FirestoreKoaSession;
-        KoaSessionFirebase.ctx = ctx;
-        ctx.session = await KoaSessionFirebase.get();
+        const COOKIE_CONFIG = { maxAge: 86400000 };
+        var SessionStore = FirestoreKoaSession;
+        ctx.session = await KoaSessionFirebase.get(null, ctx, SessionStore, COOKIE_CONFIG);
         //End
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
